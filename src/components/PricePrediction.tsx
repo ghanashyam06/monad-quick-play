@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { TrendingUp, TrendingDown, Timer, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useWallet } from "@/contexts/WalletContext";
+import { toast } from "sonner";
 
 const BET_OPTIONS = [0.01, 0.05, 0.1, 0.5];
 
 const PricePrediction = () => {
+  const { balance, updateBalance, isConnected, addGameResult } = useWallet();
   const [prediction, setPrediction] = useState<"up" | "down" | null>(null);
   const [betAmount, setBetAmount] = useState(0.05);
   const [isActive, setIsActive] = useState(false);
@@ -26,21 +29,41 @@ const PricePrediction = () => {
     if (!isActive) return;
     if (timeLeft <= 0) {
       const direction = mockPrice > (startPrice ?? 0) ? "up" : "down";
-      setResult({ won: direction === prediction, direction });
+      const won = direction === prediction;
+      setResult({ won, direction });
+      
+      if (won) {
+        updateBalance(betAmount * 2);
+        toast.success(`You won ${betAmount} MON! Price went ${direction}`);
+      } else {
+        toast.error(`Price went ${direction}. Better luck next time!`);
+      }
+      
+      addGameResult("Price Prediction", won, betAmount);
       setIsActive(false);
       setTimeLeft(120);
       return;
     }
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearTimeout(t);
-  }, [isActive, timeLeft, mockPrice, startPrice, prediction]);
+  }, [isActive, timeLeft, mockPrice, startPrice, prediction, betAmount, updateBalance, addGameResult]);
 
   const handlePredict = () => {
     if (!prediction) return;
+    if (!isConnected) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+    if (balance < betAmount) {
+      toast.error("Insufficient balance");
+      return;
+    }
+    
     setStartPrice(mockPrice);
     setResult(null);
     setIsActive(true);
     setTimeLeft(120);
+    updateBalance(-betAmount);
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
@@ -133,7 +156,7 @@ const PricePrediction = () => {
 
           <Button
             className="w-full h-12 bg-secondary text-secondary-foreground hover:bg-secondary/90 glow-secondary font-semibold"
-            disabled={!prediction}
+            disabled={!prediction || !isConnected}
             onClick={handlePredict}
           >
             Predict for {betAmount} MON

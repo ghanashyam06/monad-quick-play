@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Coins, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useWallet } from "@/contexts/WalletContext";
+import { toast } from "sonner";
 
 const BET_OPTIONS = [0.01, 0.05, 0.1, 0.5];
 
 const CoinFlip = () => {
+  const { balance, updateBalance, isConnected, addGameResult } = useWallet();
   const [selectedSide, setSelectedSide] = useState<"heads" | "tails" | null>(null);
   const [betAmount, setBetAmount] = useState(0.05);
   const [isFlipping, setIsFlipping] = useState(false);
@@ -12,12 +15,32 @@ const CoinFlip = () => {
 
   const handleFlip = () => {
     if (!selectedSide) return;
+    if (!isConnected) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+    if (balance < betAmount) {
+      toast.error("Insufficient balance");
+      return;
+    }
+
     setIsFlipping(true);
     setResult(null);
+    updateBalance(-betAmount);
 
     setTimeout(() => {
       const outcome = Math.random() > 0.5 ? "heads" : "tails";
-      setResult({ side: outcome as "heads" | "tails", won: outcome === selectedSide });
+      const won = outcome === selectedSide;
+      setResult({ side: outcome as "heads" | "tails", won });
+      
+      if (won) {
+        updateBalance(betAmount * 2);
+        toast.success(`You won ${betAmount} MON!`);
+      } else {
+        toast.error("Better luck next time!");
+      }
+      
+      addGameResult("Coin Flip", won, betAmount);
       setIsFlipping(false);
     }, 1500);
   };
@@ -92,7 +115,7 @@ const CoinFlip = () => {
 
       <Button
         className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-semibold"
-        disabled={!selectedSide || isFlipping}
+        disabled={!selectedSide || isFlipping || !isConnected}
         onClick={handleFlip}
       >
         {isFlipping ? (

@@ -3,7 +3,7 @@ import { Mail, Wallet, Gamepad2, Trophy } from "lucide-react";
 const STEPS = [
   { icon: Mail, title: "Login with Email", desc: "No wallet extensions needed. Just enter your email.", color: "text-primary", bg: "bg-primary/15 border-primary/30" },
   { icon: Wallet, title: "Get Smart Wallet", desc: "A smart wallet is created automatically for you.", color: "text-secondary", bg: "bg-secondary/15 border-secondary/30" },
-  { icon: Gamepad2, title: "Play Games", desc: "Flip coins or predict prices. All on-chain.", color: "text-accent", bg: "bg-accent/15 border-accent/30" },
+  { icon: Gamepad2, title: "Play Games", desc: "Flip coins, predict prices, or roll dice. All on-chain.", color: "text-accent", bg: "bg-accent/15 border-accent/30" },
   { icon: Trophy, title: "Win & Earn", desc: "Instant payouts. Climb the leaderboard.", color: "text-success", bg: "bg-success/15 border-success/30" },
 ];
 

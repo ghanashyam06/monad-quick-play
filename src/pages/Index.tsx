@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoinFlip from "@/components/CoinFlip";
 import PricePrediction from "@/components/PricePrediction";
+import DiceRoll from "@/components/DiceRoll";
 import Leaderboard from "@/components/Leaderboard";
 import HowItWorks from "@/components/HowItWorks";
 import { Zap } from "lucide-react";
@@ -22,9 +23,10 @@ const Index = () => {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Choose Your Game</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             <CoinFlip />
             <PricePrediction />
+            <DiceRoll />
           </div>
         </div>
       </section>
