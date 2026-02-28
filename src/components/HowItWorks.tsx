@@ -1,10 +1,10 @@
 import { Mail, Wallet, Gamepad2, Trophy } from "lucide-react";
 
 const STEPS = [
-  { icon: Mail, title: "Login with Email", desc: "No wallet extensions needed. Just enter your email.", color: "text-primary", bg: "bg-primary/15 border-primary/30" },
-  { icon: Wallet, title: "Get Smart Wallet", desc: "A smart wallet is created automatically for you.", color: "text-secondary", bg: "bg-secondary/15 border-secondary/30" },
-  { icon: Gamepad2, title: "Play Games", desc: "Flip coins, predict prices, or roll dice. All on-chain.", color: "text-accent", bg: "bg-accent/15 border-accent/30" },
-  { icon: Trophy, title: "Win & Earn", desc: "Instant payouts. Climb the leaderboard.", color: "text-success", bg: "bg-success/15 border-success/30" },
+  { icon: Wallet, title: "Connect Wallet", desc: "One-click MetaMask connection. Install if needed.", color: "text-primary", bg: "bg-primary/15 border-primary/30" },
+  { icon: Gamepad2, title: "Get 2 MON", desc: "Receive starting balance automatically. Start playing instantly.", color: "text-secondary", bg: "bg-secondary/15 border-secondary/30" },
+  { icon: Trophy, title: "Play Games", desc: "Flip coins, predict prices, or roll dice. All on-chain.", color: "text-accent", bg: "bg-accent/15 border-accent/30" },
+  { icon: Mail, title: "Win & Earn", desc: "Instant payouts. Climb the leaderboard.", color: "text-success", bg: "bg-success/15 border-success/30" },
 ];
 
 const HowItWorks = () => {
@@ -13,7 +13,7 @@ const HowItWorks = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">How It Works</h2>
-          <p className="text-muted-foreground max-w-md mx-auto">From email to on-chain gaming in under 30 seconds.</p>
+          <p className="text-muted-foreground max-w-md mx-auto">From wallet connection to on-chain gaming in seconds.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
           {STEPS.map((step, i) => (

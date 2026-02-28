@@ -58,9 +58,11 @@ Traditional blockchain gaming platforms face several critical challenges:
 Monad QuickPlay addresses these challenges with an innovative approach:
 
 ### 1. **Simplified Onboarding**
-- **Email-based login** (planned): No wallet extensions required
-- **Smart wallet creation**: Automatic wallet generation for new users
+- **MetaMask Integration**: Direct wallet connection with one click
+- **Auto-detection**: Automatically detects if MetaMask is installed
+- **Smart wallet creation**: Prompts users to install MetaMask if not found
 - **2 MON starting balance**: Instant play without purchasing crypto
+- **Account switching**: Automatically detects when users switch accounts
 
 ### 2. **Provably Fair Gaming**
 - **Pyth VRF Integration**: Verifiable random number generation
@@ -226,9 +228,15 @@ The `dist/` folder can be deployed to any static hosting service:
 ### 1. Connect Your Wallet
 
 - Click the **"Connect"** button in the navbar
-- Enter your wallet address (any valid format)
-- Confirm the connection
-- You'll receive **2 MON** starting balance
+- If you have MetaMask installed:
+  - Click "Connect MetaMask"
+  - Approve the connection in MetaMask popup
+  - You'll receive **2 MON** starting balance
+- If you don't have MetaMask:
+  - Click "Install MetaMask"
+  - Follow the installation guide
+  - Create your wallet
+  - Return and click "Connect"
 
 ### 2. Play Games
 

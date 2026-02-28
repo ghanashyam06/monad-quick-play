@@ -74,6 +74,36 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  // Listen for MetaMask account changes
+  useEffect(() => {
+    if (typeof window.ethereum !== 'undefined' && window.ethereum.on) {
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length === 0) {
+          // User disconnected their wallet
+          disconnectWallet();
+        } else if (accounts[0] !== walletAddress) {
+          // User switched to a different account
+          if (isConnected) {
+            // Save current balance before switching
+            if (walletAddress) {
+              setPlayerBalances(new Map(playerBalances.set(walletAddress, balance)));
+            }
+            // Connect to new account
+            connectWallet(accounts[0]);
+          }
+        }
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+
+      return () => {
+        if (window.ethereum.removeListener) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        }
+      };
+    }
+  }, [isConnected, walletAddress, balance, playerBalances]);
+
   // Save data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("gameHistory", JSON.stringify(gameHistory));
